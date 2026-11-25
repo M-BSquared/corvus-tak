@@ -588,6 +588,14 @@ fn affiliation_label(a: &str) -> &'static str {
     }
 }
 
+/// Whether a checkbox of this label stays inside `width`: the box and its gap take 22 px.
+fn fits_beside_a_box(ui: &egui::Ui, label: &str, width: f32) -> bool {
+    style::galley(ui, label, 12.0, Weight::W400, style::text_1(), 0.0)
+        .size()
+        .x
+        <= width - 22.0
+}
+
 fn map_filter(p: &mut Tak, ui: &mut egui::Ui, x: f32, y: f32, w: f32, h: &mut Host) -> f32 {
     let (mut bottom, frame) = head(ui, x, y, w, "On the map", |ui, right| {
         tool(ui, right, y, 0, "maximize", "Show all contacts on the map")
@@ -607,15 +615,24 @@ fn map_filter(p: &mut Tak, ui: &mut egui::Ui, x: f32, y: f32, w: f32, h: &mut Ho
         }
     }
     bottom += 2.0 * 22.0 + 4.0;
+    // One column when a word in this language is wider than half the panel.
+    let columns = if CLASSES
+        .iter()
+        .all(|c| fits_beside_a_box(ui, class_label(c), half - 6.0))
+    {
+        2
+    } else {
+        1
+    };
     for (i, c) in CLASSES.iter().enumerate() {
         let mut on = p.filter.classes.iter().any(|n| n == c);
-        let at = Pos2::new(x + (i % 2) as f32 * half, bottom + (i / 2) as f32 * 22.0);
+        let at = Pos2::new(x + (i % columns) as f32 * half, bottom + (i / columns) as f32 * 22.0);
         if kit::checkbox(ui, at, half - 6.0, class_label(c), &mut on, false, ("tak-class", i)) {
             Filter::toggle(&mut p.filter.classes, c, &CLASSES);
             changed = true;
         }
     }
-    bottom += CLASSES.len().div_ceil(2) as f32 * 22.0;
+    bottom += CLASSES.len().div_ceil(columns) as f32 * 22.0;
     if changed {
         p.save_filter(h);
     }

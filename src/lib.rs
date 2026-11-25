@@ -243,7 +243,7 @@ impl Plugin for Tak {
             }
             MapEvent::Picked(at) => self.place(at, h),
             MapEvent::PickCancelled => self.form.placing = false,
-            MapEvent::Drag(..) | MapEvent::DragEnd(..) => {}
+            MapEvent::DoubleClick(_) | MapEvent::Drag(..) | MapEvent::DragEnd(..) => {}
         }
     }
 
