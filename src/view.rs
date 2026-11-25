@@ -12,7 +12,7 @@ use corvus_api::ui::listrow::{self, Mark};
 use corvus_api::ui::style::{self, Weight};
 use corvus_api::ui::tip::HoverTr;
 use corvus_api::ui::{formfield, icons};
-use eframe::egui::{self, Color32, Pos2, Rect, Stroke, Vec2};
+use corvus_api::egui::{self, Color32, Pos2, Rect, Stroke, Vec2};
 use serde_json::{json, Value};
 
 use super::model::{age_text, distance_m, distance_text, Contact, Filter, AFFILIATIONS, CLASSES, ROLES, TEAMS};

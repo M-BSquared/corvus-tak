@@ -1,0 +1,11 @@
+{
+  "id": "tak",
+  "name": "TAK",
+  "description": "ATAK, CivTAK and WinTAK contacts and markers on the Home map, and the aircraft on theirs",
+  "icon": "radio-tower",
+  "version": "2.0.0",
+  "order": 36,
+  "can_tab": true,
+  "min_corvus": "2026.11.94",
+  "permissions": ["tak", "ai.tools"]
+}

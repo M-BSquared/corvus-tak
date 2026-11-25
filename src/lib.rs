@@ -158,7 +158,7 @@ impl Plugin for Tak {
             name: "TAK",
             icon: "radio-tower",
             description: "ATAK, CivTAK and WinTAK contacts and markers on the Home map, and the aircraft on theirs",
-            version: "1.0.0",
+            version: "2.0.0",
             order: 36,
             can_tab: true,
         }
@@ -247,7 +247,7 @@ impl Plugin for Tak {
         }
     }
 
-    fn show(&mut self, ui: &mut eframe::egui::Ui, area: eframe::egui::Rect, h: &mut Host) -> f32 {
+    fn show(&mut self, ui: &mut corvus_api::egui::Ui, area: corvus_api::egui::Rect, h: &mut Host) -> f32 {
         view::show(self, ui, area, h)
     }
 
@@ -466,7 +466,7 @@ impl Tak {
                 continue;
             }
             let key = format!("{KEY_PREFIX}{}", c.uid);
-            let mut style = Style::color(hex(&c.color_hex()).unwrap_or(eframe::egui::Color32::WHITE));
+            let mut style = Style::color(hex(&c.color_hex()).unwrap_or(corvus_api::egui::Color32::WHITE));
             if c.stale {
                 style = style.opacity(0.45);
             }
@@ -563,20 +563,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn the_details_the_store_lists_are_the_plugins_own() {
-        let manifest = include_str!("../Cargo.toml").replace('\r', "");
-        let i = plugin().info();
+    fn the_manifest_says_what_the_plugin_says_of_itself() {
+        let manifest: serde_json::Value = serde_json::from_str(include_str!("../plugin.json")).expect("plugin.json");
+        let i = Tak::default().info();
         for (key, want) in [
+            ("id", i.id),
             ("name", i.name),
             ("description", i.description),
             ("icon", i.icon),
             ("version", i.version),
         ] {
-            assert!(
-                manifest.contains(&format!("\n{key} = \"{want}\"\n")),
-                "[package.metadata.corvus] says something else than the plugin for {key}"
-            );
+            assert_eq!(manifest[key], want, "plugin.json says something else than the plugin for {key}");
         }
+        assert_eq!(manifest["order"], i.order);
+        assert_eq!(manifest["can_tab"], i.can_tab);
     }
 
     #[test]

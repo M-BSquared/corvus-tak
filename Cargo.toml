@@ -9,16 +9,9 @@ description = "The TAK plugin of Corvus GCS: ATAK, CivTAK and WinTAK contacts on
 
 [dependencies]
 corvus_api = { path = "../../src/api" }
-eframe = { workspace = true }
 serde_json = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 # Published as a shared library that Settings installs, not compiled into the program.
-[package.metadata.corvus]
-loadable = true
-name = "TAK"
-description = "ATAK, CivTAK and WinTAK contacts and markers on the Home map, and the aircraft on theirs"
-icon = "radio-tower"
-version = "1.0.0"
