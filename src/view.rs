@@ -3,6 +3,7 @@
 
 // Under other names: the key check of the program reads the language files of the
 // application for every literal handed to `translate(`, and a plugin keeps its own.
+use corvus_api::egui::{self, Color32, Pos2, Rect, Stroke, Vec2};
 use corvus_api::i18n::{tr as translate, tr_fmt as translate_fmt};
 use corvus_api::plugin::shapes::{hex, paint_glyph};
 use corvus_api::plugin::Host;
@@ -12,7 +13,6 @@ use corvus_api::ui::listrow::{self, Mark};
 use corvus_api::ui::style::{self, Weight};
 use corvus_api::ui::tip::HoverTr;
 use corvus_api::ui::{formfield, icons};
-use corvus_api::egui::{self, Color32, Pos2, Rect, Stroke, Vec2};
 use serde_json::{json, Value};
 
 use super::model::{age_text, distance_m, distance_text, Contact, Filter, AFFILIATIONS, CLASSES, ROLES, TEAMS};
